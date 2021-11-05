@@ -2,7 +2,7 @@ const Web3 = require('web3');
 
 const abi = require('./abi.json');
 
-const { privateKey } = require('./env.json');
+const { from, privateKey } = require('./env.json');
 
 
 // Provider
@@ -34,9 +34,9 @@ const mint = async () => {
     let txCall = {
         to: contractAddress,
         data: mintTx.encodeABI(),
-        // gas: await web3.eth.estimateGas(mintTx),
-        gas: 2208000,
-        gasPrice: '30000000000'
+        gas: await mintTx.estimateGas({from: from}),
+        // gasPrice: await web3.eth.getGasPrice()
+        gasPrice: 3000000000
     };
 
     console.log("txCall:", txCall);
