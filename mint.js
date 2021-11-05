@@ -35,8 +35,7 @@ const mint = async () => {
         to: contractAddress,
         data: mintTx.encodeABI(),
         gas: await mintTx.estimateGas({from: from}),
-        // gasPrice: await web3.eth.getGasPrice()
-        gasPrice: 3000000000
+        gasPrice: await web3.eth.getGasPrice()
     };
 
     console.log("txCall:", txCall);
