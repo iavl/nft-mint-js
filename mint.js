@@ -36,7 +36,7 @@ const mint = async () => {
         gas: await mintTx.estimateGas({from: from}),
         gasPrice: await web3.eth.getGasPrice()
     };
-    console.log("tx:", txCall);
+    console.log("tx:", tx);
 
     const signedTx = await web3.eth.accounts.signTransaction(
         tx,
