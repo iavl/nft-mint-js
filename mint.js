@@ -10,7 +10,6 @@ const providerRPC = {
     development: 'http://localhost:9933',
     polygonMainnet: 'https://polygon-rpc.com/',
 };
-
 const web3 = new Web3(providerRPC.polygonMainnet); //Change to correct network
 
 const contractAddress = '0xb488dA8b17123F9506C44C17E6d3E6aE9B511B47';
@@ -22,7 +21,7 @@ const _value = ['0x760524E21377a92C8b5CD18293eeCfc56e9e4296','0x760524E21377a92C
 // Create Contract Instance
 const contractInstance = new web3.eth.Contract(abi, contractAddress);
 
-// Build Increment Tx
+// Build Mint Tx
 const mintTx = contractInstance.methods.batchMint(_value);
 
 const mint = async () => {
