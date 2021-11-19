@@ -1,19 +1,19 @@
 const Web3 = require('web3');
 
 const abi = require('./abi.json');
-const { privateKey } = require('./env.json');
+const { from, privateKey } = require('./env.json');
 const { airdropsAddress } = require('./airdrops.json');
 
 
 // Provider
 const providerRPC = {
-    development: 'http://localhost:9933',
+    development: 'http://157.245.132.76:8545',
     polygonMainnet: 'https://polygon-rpc.com/',
 };
 
-const web3 = new Web3(providerRPC.polygonMainnet); //Change to correct network
+const web3 = new Web3(providerRPC.development); //Change to correct network
 
-const contractAddress = '0xb488dA8b17123F9506C44C17E6d3E6aE9B511B47';
+const contractAddress = '0x8eC80E34fe34e1de746E2032A7628B15550a7FB9';
 
 /*
    -- Send Function --
@@ -32,8 +32,8 @@ const mint = async (_value) => {
     var txCall = {
         to: contractAddress,
         data: mintTx.encodeABI(),
-        // gas: await web3.eth.estimateGas(mintTx),
-        gas: 2208000,
+        gas: await mintTx.estimateGas({from: from}),
+        // gas: 2208000,
         gasPrice: '30000000000'
     };
 
@@ -44,18 +44,18 @@ const mint = async (_value) => {
         privateKey
     );
 
-    // console.log("signedTx:", signedTx);
+    console.log("signedTx:", signedTx);
 
     // Send Tx and Wait for Receipt
-    // const createReceipt = await web3.eth.sendSignedTransaction(
-    //     signedTx.rawTransaction
-    // );
-    // console.log(`Tx successful with hash: ${createReceipt.transactionHash}`);
+    const createReceipt = await web3.eth.sendSignedTransaction(
+        signedTx.rawTransaction
+    );
+    console.log(`Tx successful with hash: ${createReceipt.transactionHash}`);
 };
 
 
 const batchMint = async () => {
-    var step = 4
+    var step = 50
     for (var i = 0; i < airdropsAddress.length; i+=step) {
         var addrs = []
         var idx = Math.min(airdropsAddress.length, i+step)
