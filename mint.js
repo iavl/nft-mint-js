@@ -63,6 +63,7 @@ const batchMint = async () => {
             // console.log(airdropsAddress[j])
             addrs.push(airdropsAddress[j])
         }
+        console.log("first address: ", airdropsAddress[i])
         console.log("last address: ", airdropsAddress[idx-1])
         await mint(addrs);
     }
