@@ -1,9 +1,8 @@
 const Web3 = require('web3');
 
 const abi = require('./abi.json');
-const { from, privateKey } = require('./env.json');
+const { from, privateKey, contractAddress } = require('./env.json');
 const { airdropsAddress } = require('./airdrops.json');
-
 
 // Provider
 const providerRPC = {
@@ -13,14 +12,12 @@ const providerRPC = {
 
 const web3 = new Web3(providerRPC.development); //Change to correct network
 
-const contractAddress = '0x8eC80E34fe34e1de746E2032A7628B15550a7FB9';
-
-/*
-   -- Send Function --
-*/
 // Create Contract Instance
 const contractInstance = new web3.eth.Contract(abi, contractAddress);
 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 const mint = async (_value) => {
     // console.log(`Calling the batchMint function at contract address: ${contractAddress}`);
@@ -44,7 +41,7 @@ const mint = async (_value) => {
         privateKey
     );
 
-    console.log("signedTx:", signedTx);
+    // console.log("signedTx:", signedTx);
 
     // Send Tx and Wait for Receipt
     const createReceipt = await web3.eth.sendSignedTransaction(
@@ -57,15 +54,17 @@ const mint = async (_value) => {
 const batchMint = async () => {
     var step = 50
     for (var i = 0; i < airdropsAddress.length; i+=step) {
+        console.log("start from ", i)
         var addrs = []
         var idx = Math.min(airdropsAddress.length, i+step)
         for (var j = i; j < idx; j++) {
             // console.log(airdropsAddress[j])
             addrs.push(airdropsAddress[j])
         }
+        await mint(addrs);
         console.log("first address: ", airdropsAddress[i])
         console.log("last address: ", airdropsAddress[idx-1])
-        await mint(addrs);
+        await sleep(10000);
     }
 }
 
