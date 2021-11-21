@@ -10,7 +10,7 @@ const providerRPC = {
     polygonMainnet: 'https://polygon-rpc.com/',
 };
 
-const web3 = new Web3(providerRPC.development); //Change to correct network
+const web3 = new Web3(providerRPC.polygonMainnet); //Change to correct network
 
 // Create Contract Instance
 const contractInstance = new web3.eth.Contract(abi, contractAddress);
@@ -52,7 +52,7 @@ const mint = async (_value) => {
 
 
 const batchMint = async () => {
-    var step = 50
+    var step = 150
     for (var i = 0; i < airdropsAddress.length; i+=step) {
         console.log("start from ", i)
         var addrs = []
